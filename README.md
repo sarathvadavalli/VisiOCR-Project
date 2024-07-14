@@ -8,6 +8,8 @@
 
 <b>c) Download pdf:</b> When user clicks on download as pdf button, it is downloaded in the pdf format and stored in local disk.
 
+<b>d) Validate QR:</b> The user can upload the image of QR-code to validate whether the visitor pass is active or expired. If it is active, user can view the pass and download.<br>
+
 ## Steps Followed
 * Clone the repository using git clone command.
 ```
