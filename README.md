@@ -64,6 +64,3 @@ qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L,
 ```
 * Generate a visitor pass which contains all the extracted details along with QR code. Download the page once download button is clicked.
 * The visitor pass details are then pushed and stored into MySQL database.
-
-## License 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
