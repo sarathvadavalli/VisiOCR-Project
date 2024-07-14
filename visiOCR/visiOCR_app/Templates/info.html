@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DetailsPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'info.css' %}?v={{ STATIC_VERSION }}">
+</head>
+<body>
+    <div class="information" id="content">
+        <h2 style="text-align:center;">Visitor Pass</h2>
+        <ul>
+            {% for key, value in extracted_info.items %}
+               <li class="details"><strong>{{ key }}:</strong> {{ value }}</li><br>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="qrcode"> 
+        <img src="data:image/png;base64,{{ qr_code }}" style="width: 40%;" alt="QR Code"> <br><br>
+        <form  method="post" action="{% url 'download_pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="extracted_info" value="{{ extracted_info }}">
+            <input type="hidden" name="qr_code" value="data:image/png;base64,{{ qr_code }}">
+            <button type="submit">Download as PDF</button>
+        </form>
+    </div>
+</body>
+</html>
