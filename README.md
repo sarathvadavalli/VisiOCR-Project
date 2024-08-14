@@ -1,4 +1,6 @@
 # VisiOCR
+
+## Overview
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;OCR stands for Optical character recognition. VisiOCR is an application which is used to extract and validate the text from aadhaar or pan cards and generate a visitor pass along with a QR-code for the user with a fixed duration. This data can be conviniently stored in database for easy storage and retrieval.
 
 ## Features
