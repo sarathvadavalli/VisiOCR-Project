@@ -1,70 +1,205 @@
 # VisiOCR
 
 ## Overview
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;OCR stands for Optical character recognition. VisiOCR is an application which is used to extract and validate the text from aadhaar or pan cards and generate a visitor pass along with a QR-code for the user with a fixed duration. This data can be conviniently stored in database for easy storage and retrieval.
+
+VisiOCR is an OCR-based web application built using **Python**, **Django**, **OpenCV**, **Tesseract OCR**, and **MySQL**. It extracts information from Aadhaar and PAN cards, validates the extracted data, generates visitor passes with QR codes, and stores visitor information in a database for easy management and retrieval.
+
+---
 
 ## Features
-<b>a) Upload image:</b> The user can select the type of image he/she wants to scan and upload the image. If the extension of uploaded file doesnot match with that of image, it shows an alert to the user.<br>
 
-<b>b) Extract text:</b> After user uploads an image, the text is extracted from image using pytesseract library and a QR-code is generated. All these details are displayed on the user interface.
+### 📤 Image Upload
+- Upload Aadhaar or PAN card images for text extraction.
+- Validates the uploaded file type and displays an alert for unsupported file formats.
 
-<b>c) Download pdf:</b> When user clicks on download as pdf button, it is downloaded in the pdf format and stored in local disk.
+### 🔍 OCR Text Extraction
+- Extracts text from uploaded images using **Tesseract OCR**.
+- Displays the extracted information on the user interface.
+- Generates a unique QR code for every visitor pass.
 
-<b>d) Validate QR:</b> The user can upload the image of QR-code to validate whether the visitor pass is active or expired. If it is active, user can view the pass and download.<br>
+### 📄 Visitor Pass Generation
+- Creates a visitor pass containing the extracted user information and QR code.
+- Allows users to download the visitor pass as a PDF.
 
-## Steps Followed
-* Clone the repository using git clone command.
-```
+### ✅ QR Code Validation
+- Upload a QR code image to verify whether the visitor pass is **active** or **expired**.
+- Displays the visitor pass details if the QR code is valid.
+
+### 💾 Database Storage
+- Stores extracted visitor information in a MySQL database for future retrieval and management.
+
+---
+
+## Technologies Used
+
+- Python
+- Django
+- MySQL
+- OpenCV
+- Tesseract OCR (pytesseract)
+- Regular Expressions (re)
+- QRCode
+- ReportLab
+
+---
+
+## Installation
+
+### Clone the repository
+
+```bash
 git clone https://github.com/Springboard-Internship-2024/VisiOCR_May_2024.git
+cd VisiOCR_May_2024
 ```
-* Install the necessary libraries needed for project.
-```
+
+### Install dependencies
+
+```bash
 pip install opencv-python
 pip install pytesseract
 pip install regex
 pip install qrcode
 pip install reportlab
 ```
-* Create a <b>Django</b> project visiOCR and an app named visiOCR_app.
-```
+
+### Create Django Project
+
+```bash
 django-admin startproject visiOCR
 python manage.py startapp visiOCR_app
 ```
-* Update the settings by adding the app name and paths for templates and static files. Also create a connection to MySQL server by giving required details of database.
-```
+
+### Configure Database
+
+Update the `DATABASES` configuration in `settings.py`.
+
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'visiocr',
         'USER': 'root',
         'PASSWORD': 'admin',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 ```
-* Create home.html and info.html templates. Also home.css and info.css for styling respective pages.
-  - home.html to enable user to upload an image for extraction.
-  - info.html to display the extracted details along with QR-code.
- 
-* Create a model visiOCR_data and add fields into it. Then apply migrations and migrate to see the changes in database.
+
+### Apply Migrations
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
 ```
-class OCR_data(models.Model):
-    pass_id = models.AutoField(primary_key=True)
-    id_type = models.CharField(max_length=20)
-    text = models.CharField(max_length=100)
+
+### Run the Development Server
+
+```bash
+python manage.py runserver
 ```
-    
-* Preprocess the image and Extract the data from uploaded image using <b>pytesseract</b> library.
-```
+
+---
+
+## Project Workflow
+
+### 1. Upload Image
+
+Users upload an Aadhaar or PAN card image through the web interface.
+
+### 2. Image Preprocessing
+
+The uploaded image is preprocessed using OpenCV techniques such as:
+- Grayscale conversion
+- Thresholding
+- Noise reduction
+
+to improve OCR accuracy.
+
+### 3. Text Extraction
+
+Extract text from the processed image using Tesseract OCR.
+
+```python
 import pytesseract
-extracted_text = pytesseract.image_to_string(processed)
+
+extracted_text = pytesseract.image_to_string(processed_image)
 ```
-* Fetch the required details from extracted text using regular expressions which can be achieved by re module.
-* Generate a QR-code which stores these details and has a fixed expiry time after which the code becomes invalid. Before expiry, when this QR is scanned in a mobile, the details are visible.
-```
+
+### 4. Information Extraction
+
+Regular expressions are used to extract relevant fields such as:
+- Name
+- Aadhaar Number
+- PAN Number
+- Date of Birth
+
+from the OCR output.
+
+### 5. QR Code Generation
+
+Generate a QR code containing visitor information with a predefined expiry time.
+
+```python
 import qrcode
-qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=3, border=4)
+
+qr = qrcode.QRCode(
+    version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
+    box_size=3,
+    border=4
+)
 ```
-* Generate a visitor pass which contains all the extracted details along with QR code. Download the page once download button is clicked.
-* The visitor pass details are then pushed and stored into MySQL database.
+
+### 6. Visitor Pass Generation
+
+Generate a visitor pass containing:
+- Visitor details
+- QR Code
+- Expiry information
+
+The visitor pass can be downloaded as a PDF.
+
+### 7. QR Validation
+
+Users can upload a QR code to verify whether the visitor pass is still active or has expired.
+
+### 8. Database Storage
+
+All extracted visitor information is stored in a MySQL database for efficient retrieval and management.
+
+---
+
+## Project Structure
+
+```
+VisiOCR/
+│
+├── visiOCR/
+├── visiOCR_app/
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── templates/
+│   │   ├── home.html
+│   │   └── info.html
+│   ├── static/
+│   │   ├── home.css
+│   │   └── info.css
+│   └── ...
+├── manage.py
+└── README.md
+```
+
+
+## Future Enhancements
+
+- Support additional government-issued ID cards.
+- Improve OCR accuracy using deep learning models.
+- Deploy the application on cloud a platform.
+
+---
+
+## License
+
+This project was developed as part of the **Infosys Springboard Internship Program**.
