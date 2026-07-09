@@ -48,8 +48,7 @@ VisiOCR is an OCR-based web application built using **Python**, **Django**, **Op
 ### Clone the repository
 
 ```bash
-git clone https://github.com/Springboard-Internship-2024/VisiOCR_May_2024.git
-cd VisiOCR_May_2024
+git clone https://github.com/sarathvadavalli/VisiOCR-Project
 ```
 
 ### Install dependencies
