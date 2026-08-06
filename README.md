@@ -195,7 +195,7 @@ VisiOCR/
 
 - Support additional government-issued ID cards.
 - Improve OCR accuracy using deep learning models.
-- Deploy the application on cloud a platform.
+- Deploy the application on a cloud platform.
 
 ---
 
